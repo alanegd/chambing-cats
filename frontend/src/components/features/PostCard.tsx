@@ -1,3 +1,5 @@
+// en: src/components/features/PostCard.tsx
+
 import React from 'react';
 import { MessageSquare, Heart } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
@@ -23,7 +25,8 @@ export const PostCard: React.FC<PostCardProps> = ({ post }) => {
     >
       <div className="relative">
         <img 
-          src={post.imageUrl} 
+          // ¡CORRECCIÓN! La propiedad correcta es 'mediaUrl'.
+          src={post.mediaUrl} 
           alt={post.caption} 
           className="w-full h-auto aspect-square object-cover bg-gray-200"
           loading="lazy"

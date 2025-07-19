@@ -1,0 +1,1 @@
+export type CommentSentiment = 'satisfied' | 'unsatisfied' | 'neutral';

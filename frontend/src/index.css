@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #0ea5e9; /* azul-cielo-500 */
+  --rdp-background-color: #e0f2fe; /* azul-cielo-100 */
+  --rdp-accent-color-dark: #0369a1; /* azul-cielo-700 */
+  margin: 1em;
+}
+
+/* Estilo para el contenedor del popover del calendario */
+.calendar-popover {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border: 1px solid #e5e7eb; /* gris-200 */
+}
+
+/* Asegura que el texto dentro del calendario sea oscuro */
+.rdp-caption_label,
+.rdp-head_cell,
+.rdp-day {
+  color: #1f2937; /* gris-800 */
+}
+
+/* Estilo para los días seleccionados */
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--rdp-accent-color);
+  color: white;
+  font-weight: bold;
+}

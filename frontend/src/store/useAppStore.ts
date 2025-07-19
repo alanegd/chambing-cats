@@ -1,10 +1,12 @@
 import { create } from "zustand";
-import type { 
-  Post, 
-  SocialNetwork, 
-  UserProfile, 
-  SortCriteria, 
-  SortOrder 
+
+import type {
+  Post,
+  SocialNetwork,
+  UserProfile,
+  SortCriteria,
+  SortOrder,
+  DateRange 
 } from '../types';
 import { postService } from "../services/postService";
 import { profileService } from "../services/profileService";
@@ -18,14 +20,18 @@ interface AppState {
   sortCriteria: SortCriteria;
   sortOrder: SortOrder;
   selectedPost: Post | null;
+  dateRange: DateRange;
 
   setNetwork: (network: SocialNetwork) => void;
   fetchData: (network: SocialNetwork) => Promise<void>;
   setSort: (criteria: SortCriteria) => void;
   selectPost: (post: Post | null) => void;
-
   clearSelectedPost: () => void;
+  setDateRange: (range: DateRange) => void;
 }
+
+const initialFromDate = new Date(new Date().getFullYear(), 0, 1);
+const initialToDate = new Date(); // Hoy
 
 export const useAppStore = create<AppState>((set, get) => ({
   activeNetwork: 'instagram',
@@ -36,6 +42,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   sortCriteria: 'publishedAt',
   sortOrder: 'desc',
   selectedPost: null,
+  dateRange: { from: initialFromDate, to: initialToDate },
 
   setNetwork: (network: SocialNetwork) => {
     if (get().activeNetwork === network && get().posts.length > 0) return;
@@ -67,9 +74,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   selectPost: (post: Post | null) => {
     set({ selectedPost: post });
   },
-
-  // ¡CORRECCIÓN 2/2! Implementar la lógica de la acción.
+  
   clearSelectedPost: () => {
     set({ selectedPost: null });
+  },
+
+  setDateRange: (range: DateRange) => {
+    set({ dateRange: range });
   }
 }));

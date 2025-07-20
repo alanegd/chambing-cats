@@ -4,7 +4,7 @@ import { Sidebar } from '../components/layout/Sidebar';
 import { Header } from '../components/layout/Header';
 import { FilterBar } from '../components/features/FilterBar';
 import { PostGrid } from '../components/features/PostGrid';
-import { PostDetailView } from '../components/features/PostDetailView';
+import { PostDetailScreen } from './PostDetailScreen';
 
 export const DashboardPage = () => {
   const fetchData = useAppStore(state => state.fetchData);
@@ -24,7 +24,7 @@ export const DashboardPage = () => {
           <PostGrid />
         </main>
       </div>
-      <PostDetailView />
+      <PostDetailScreen />
     </div>
   );
 };

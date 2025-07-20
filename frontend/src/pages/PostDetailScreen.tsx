@@ -1,8 +1,5 @@
-
 import React, { useState, useMemo } from 'react';
-
 import { X, Heart, MessageSquare, BrainCircuit, TrendingUp, Smile, Frown, Meh, ThumbsUp } from 'lucide-react';
-
 import { format } from 'date-fns';
 import { useAppStore } from '../store/useAppStore';
 import type { CommentSentiment } from '../types/CommentSentiment';
@@ -10,11 +7,10 @@ import type { CommentSentiment } from '../types/CommentSentiment';
 type Tab = 'summary' | 'comments' | 'trends';
 type CommentSort = 'latest' | 'likes';
 
-export const PostDetailView = () => {
+export const PostDetailScreen = () => {
   const selectedPost = useAppStore((state) => state.selectedPost);
   const clearSelectedPost = useAppStore((state) => state.clearSelectedPost);
   const summary = useAppStore((state) => state.postSummary);
-  const trends = useAppStore((state) => state.postTrends);
   const isLoading = useAppStore((state) => state.isAnalysisLoading);
 
   const [activeTab, setActiveTab] = useState<Tab>('summary');
@@ -103,22 +99,13 @@ export const PostDetailView = () => {
             </div>
           </div>
         );
-      case 'trends':
-        return (
-          <div className="p-6">
-            <h3 className="text-lg font-bold mb-4">Tendencias Asociadas</h3>
-            <div className="flex flex-wrap gap-2">
-              {trends.map(trend => (
-                <span key={trend} className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">{trend}</span>
-              ))}
-            </div>
-          </div>
-        );
+
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 animate-fade-in">
+    // ¡CORRECCIÓN! Se cambian las clases del fondo aquí.
+    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
       <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden">
         <button onClick={clearSelectedPost} className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-colors z-20"><X size={24} /></button>
         <div className="w-full md:w-1/2 h-64 md:h-auto bg-gray-900 flex items-center justify-center relative">

@@ -58,10 +58,13 @@ export const FilterBar = () => {
             <DayPicker
               mode="range"
               selected={dateRange}
-              onSelect={(range) => setDateRange(range || { from: undefined, to: undefined })}
-              // ¡CORRECCIÓN! Cambia el número de meses a 1.
+              onSelect={(range) =>
+                setDateRange({
+                  from: range?.from,
+                  to: range?.to ?? undefined,
+                })
+              }
               numberOfMonths={1}
-              // Esta línea se asegura de que se abra en el mes correcto.
               defaultMonth={dateRange.from || new Date()}
             />
           </div>

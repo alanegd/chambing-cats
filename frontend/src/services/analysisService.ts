@@ -15,11 +15,5 @@ export const analysisService = {
       else sentiments[id] = 'satisfied';
     });
     return sentiments;
-  },
-  
-  getPostTrends: async (postId: string): Promise<string[]> => {
-    console.log(`Fetching trends for post ${postId}...`);
-    await new Promise(res => setTimeout(res, 600));
-    return ["#Productividad", "#DiseñoCreativo", "#MarketingDigital", "#Tech", "#InspiraciónDiaria"];
   }
 };

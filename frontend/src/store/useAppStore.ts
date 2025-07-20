@@ -26,7 +26,6 @@ interface AppState {
 
   // --- ¡NUEVO ESTADO PARA EL ANÁLISIS! ---
   postSummary: string | null;
-  postTrends: string[];
   isAnalysisLoading: boolean;
 
   setNetwork: (network: SocialNetwork) => void;
@@ -54,7 +53,6 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // --- ¡ESTADO INICIAL PARA EL ANÁLISIS! ---
   postSummary: null,
-  postTrends: [],
   isAnalysisLoading: false,
 
   setNetwork: (network: SocialNetwork) => {
@@ -83,40 +81,37 @@ export const useAppStore = create<AppState>((set, get) => ({
       sortOrder: state.sortCriteria === criteria && state.sortOrder === 'desc' ? 'asc' : 'desc',
     }));
   },
-  
-  // --- ¡ACCIÓN ACTUALIZADA! ---
+
   selectPost: (post: Post | null) => {
     set({ 
       selectedPost: post, 
-      postSummary: null, // Resetea el estado de análisis al seleccionar un post
-      postTrends: [],
-      isAnalysisLoading: !!post // Activa el loading si se selecciona un post
+      postSummary: null,
+
+      isAnalysisLoading: !!post 
     });
-    // Si hay un post, busca su análisis
+
     if (post) {
       get().fetchPostAnalysis(post.id);
       get().fetchCommentSentiments();
     }
   },
-  
-  // --- ¡ACCIÓN ACTUALIZADA! ---
+
   clearSelectedPost: () => {
-    // Limpia también el estado de análisis
-    set({ selectedPost: null, postSummary: null, postTrends: [] });
+
+    set({ selectedPost: null, postSummary: null });
   },
 
   setDateRange: (range: DateRange) => {
     set({ dateRange: range });
   },
 
-  // --- ¡NUEVAS ACCIONES IMPLEMENTADAS! ---
   fetchPostAnalysis: async (postId: string) => {
     try {
-      const [summary, trends] = await Promise.all([
+      const [summary] = await Promise.all([
         analysisService.getPostSummary(postId),
-        analysisService.getPostTrends(postId)
+
       ]);
-      set({ postSummary: summary, postTrends: trends, isAnalysisLoading: false });
+      set({ postSummary: summary, isAnalysisLoading: false });
     } catch (error) {
       console.error("Error fetching post analysis:", error);
       set({ isAnalysisLoading: false });
@@ -126,8 +121,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   fetchCommentSentiments: async () => {
     const post = get().selectedPost;
     if (!post || post.comments.length === 0) {
-        // Si no hay post o comentarios, no hay nada que hacer.
-        // Asegúrate de que el loading se desactive si se estaba cargando.
+
         if (get().isAnalysisLoading) {
             set({ isAnalysisLoading: false });
         }
